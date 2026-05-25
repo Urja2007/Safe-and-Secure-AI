@@ -75,7 +75,12 @@ def generate_response(model, tokenizer, system_prompt: str, user_prompt: str, ma
         print(f"Warning: apply_chat_template failed ({e}). Falling back to manual formatting.")
         prompt_text = f"<|im_start|>system\n{system_prompt}<|im_end|>\n<|im_start|>user\n{user_prompt}<|im_end|>\n<|im_start|>assistant\n"
         
-    inputs = tokenizer(prompt_text, return_tensors="pt").to(model.device)
+    inputs = tokenizer(
+        prompt_text,
+        return_tensors="pt",
+        truncation=True,
+        max_length=2048
+    ).to(model.device)
     
     with torch.no_grad():
         output_ids = model.generate(
@@ -83,7 +88,10 @@ def generate_response(model, tokenizer, system_prompt: str, user_prompt: str, ma
             max_new_tokens=max_new_tokens,
             temperature=0.7,
             do_sample=True,
-            pad_token_id=tokenizer.eos_token_id
+            top_p=0.9,
+            repetition_penalty=1.1,
+            pad_token_id=tokenizer.eos_token_id,
+            eos_token_id=tokenizer.eos_token_id
         )
         
     # Extract response (excluding prompt tokens)
