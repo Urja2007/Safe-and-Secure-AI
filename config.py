@@ -1,7 +1,7 @@
 import os
 
 # Hugging Face Token (Read from environment variable or use the default from your notebook)
-HF_TOKEN = os.environ.get("HF_TOKEN", "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")
+HF_TOKEN = os.environ.get("HF_TOKEN", "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")
 
 # Dataset file paths
 JAILBREAK_DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "jailbreak_prompts_25.csv")
@@ -16,7 +16,6 @@ TARGET_MODELS = {
     "llama-3.1-8b": "meta-llama/Llama-3.1-8B-Instruct",
     "mistral-7b": "mistralai/Mistral-7B-Instruct-v0.3",
     "qwen-2.5-7b": "Qwen/Qwen2.5-7B-Instruct",
-    "gemma-3-12b": "google/gemma-3-12b-it",
     "deepseek-7b": "deepseek-ai/deepseek-llm-7b-chat"
 }
 
