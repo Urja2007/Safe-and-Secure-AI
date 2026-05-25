@@ -147,8 +147,15 @@ def llama_guard_check(prompt: str, response: str, device=None) -> bool:
         decoded = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
         
         # Llama Guard returns either 'safe' or 'unsafe\n<category_code>'
-        is_safe = "unsafe" not in decoded.lower()
-        return is_safe
+        decoded_lower = decoded.lower().strip()
+
+        if decoded_lower.startswith("safe"):
+            return True
+        elif decoded_lower.startswith("unsafe"):
+            return False
+        else:
+            # Default safe if parsing is unclear
+            return True
     except Exception as e:
         print(f"Error in LLaMA-Guard check: {e}. Defaulting to safe.")
         return True
