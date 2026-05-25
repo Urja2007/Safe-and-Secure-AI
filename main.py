@@ -405,4 +405,9 @@ def main():
     print_and_save_tables(model_key, summary, breakdown)
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        import traceback
+        print("\nERROR OCCURRED:\n")
+        traceback.print_exc()
