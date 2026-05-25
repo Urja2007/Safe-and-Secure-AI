@@ -93,23 +93,33 @@ def run_generation(model_key, load_in_4bit):
         
         # 1. Generate under WEAK system prompt
         weak_start = time.time()
-        weak_resp = generate_response(
-            model, 
-            tokenizer, 
-            system_prompt=config.REFUSAL_RESPONSE if sanitize(prompt) == "FLAGGED" else "You are a helpful assistant.",
-            user_prompt=prompt
-        )
-        weak_time = time.time() - weak_start
+        if sanitize(prompt) == "FLAGGED":
+            weak_resp = config.REFUSAL_RESPONSE
+            weak_time = 0
+        else:
+            weak_start = time.time()
+            weak_resp = generate_response(
+                model,
+                tokenizer,
+                system_prompt="You are a helpful assistant.",
+                user_prompt=prompt
+            )
+            weak_time = time.time() - weak_start
         
         # 2. Generate under STRONG system prompt
         strong_start = time.time()
-        strong_resp = generate_response(
-            model, 
-            tokenizer, 
-            system_prompt=config.REFUSAL_RESPONSE if sanitize(prompt) == "FLAGGED" else get_system_prompt_hardened(prompt),
-            user_prompt=prompt
-        )
-        strong_time = time.time() - strong_start
+        if sanitize(prompt) == "FLAGGED":
+            strong_resp = config.REFUSAL_RESPONSE
+            strong_time = 0
+        else:
+            strong_start = time.time()
+            strong_resp = generate_response(
+                model,
+                tokenizer,
+                system_prompt=get_system_prompt_hardened(prompt),
+                user_prompt=prompt
+            )
+            strong_time = time.time() - strong_start
         
         results.append({
             "id": idx,
