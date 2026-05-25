@@ -1,7 +1,7 @@
 import os
 
 # Hugging Face Token (Read from environment variable or use the default from your notebook)
-HF_TOKEN = os.environ.get("HF_TOKEN", "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")
+HF_TOKEN = os.environ.get("HF_TOKEN", "")
 
 # Dataset file paths
 JAILBREAK_DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "jailbreak_prompts_25.csv")
