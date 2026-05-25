@@ -24,7 +24,7 @@ LLAMA_GUARD_MODEL = "meta-llama/Llama-Guard-3-8B"
 
 # LLM-as-a-Judge configuration
 # Options: 'local' (load local instruct model), 'openai' (use OpenAI API), 'gemini' (use Gemini API), 'heuristic' (simple keyword check), 'manual' (interactive review)
-JUDGE_TYPE = "local"
+JUDGE_TYPE = "openai"
 
 # Local judge model ID (only used if JUDGE_TYPE is 'local')
 LOCAL_JUDGE_MODEL = "meta-llama/Llama-3.1-8B-Instruct"
