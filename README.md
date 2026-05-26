@@ -11,7 +11,7 @@ Code/
 │   ├── jailbreak_prompts_25.csv    # 25 selected jailbreak prompts across 10 categories
 │   └── benign_prompts.txt          # 25 control benign prompts (from Prompts.txt)
 │
-├── results/                        # Generated evaluation reports and raw outputs
+├── Result/                        # Generated evaluation reports and raw outputs
 │
 ├── config.py                       # Global configs (HF token, models, API keys, paths)
 ├── defenses.py                     # Implementations of Defenses D1, D2, and D3
