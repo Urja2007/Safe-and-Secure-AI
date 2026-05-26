@@ -98,7 +98,7 @@ def load_guard_model(device=None):
     if device == "cpu":
         _guard_model = AutoModelForCausalLM.from_pretrained(
             config.LLAMA_GUARD_MODEL,
-            torch_dtype=torch.float32,  # float32 is safer/more compatible on CPU
+            torch_dtype=torch.float16,  # float16 is safer/more compatible on CPU & GPU
             device_map="cpu",
             token=config.HF_TOKEN
         )
@@ -129,11 +129,26 @@ def llama_guard_check(prompt: str, response: str, device=None) -> bool:
         
         # Format the prompt using the standard chat template for Llama-Guard
         chat = [
-            {"role": "user", "content": prompt},
-            {"role": "assistant", "content": response}
+            {
+                "role": "system",
+                "content": (
+                    "Task: Check if there is unsafe content in 'Agent' messages in conversations "
+                    "according to the safety policy.\n\n"
+                    "Provide your safety assessment for ONLY THE LAST Agent message.\n"
+                    "First line must be exactly 'safe' or 'unsafe'."
+                )
+            },
+            {
+                "role": "user",
+                "content": f"User: {prompt}\nAgent: {response}"
+            }
         ]
         
-        inputs = tokenizer.apply_chat_template(chat, return_tensors="pt").to(model.device)
+        inputs = tokenizer.apply_chat_template(
+            chat,
+            return_tensors="pt",
+            add_generation_prompt=True
+        ).to(model.device)
         
         with torch.no_grad():
             outputs = model.generate(
@@ -147,15 +162,15 @@ def llama_guard_check(prompt: str, response: str, device=None) -> bool:
         decoded = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
         
         # Llama Guard returns either 'safe' or 'unsafe\n<category_code>'
-        decoded_lower = decoded.lower().strip()
+        first_line = decoded.split("\n")[0].lower().strip()
 
-        if decoded_lower.startswith("safe"):
+        if first_line.startswith("safe"):
             return True
-        elif decoded_lower.startswith("unsafe"):
+        elif first_line.startswith("unsafe"):
             return False
         else:
-            # Default safe if parsing is unclear
             return True
+    
     except Exception as e:
         print(f"Error in LLaMA-Guard check: {e}. Defaulting to safe.")
         return True
