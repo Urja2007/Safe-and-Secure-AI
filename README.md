@@ -5,7 +5,7 @@ This repository contains the implementation of a safety evaluation pipeline for 
 ## Project Structure
 
 ```text
-Code/
+Safe-and-Secure-AI/
 │
 ├── data/
 │   ├── jailbreak_prompts_25.csv    # 25 selected jailbreak prompts across 10 categories
