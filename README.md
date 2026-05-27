@@ -331,7 +331,7 @@ This pipeline was developed as part of a research internship at **IIT Patna's Wi
 
 ## Authors
 
-- **Thota Venkata Sai** (U24EC086) — SVNIT Surat, ECE + AI Minor
-- **Urja Mandali** — SVNIT Surat
-- **Supervisor:** Shambhavi (PhD Scholar, WCRL, IIT Patna)
+- **Thota Venkata Sai** — SVNIT Surat ECE 
+- **Urja Mandali** — SVNIT Surat ECE
+- **Supervisor:** Shambhavi
 - **PI:** Prof. Preetam Kumar, IIT Patna
