@@ -49,15 +49,6 @@ We evaluate **8 distinct defense configurations** using **3 pillars of the TRiSM
 
 ---
 
-## 🚀 Optimization: 4x Speedup Strategy
-Normally, running 8 configurations on 50 prompts requires **400 separate LLM generations**. To make this feasible and fast on any GPU, we implement a **pre-generation strategy**:
-1. For each prompt, we only generate **2 responses** from the target LLM:
-   * **Weak Response**: Generated using a minimal system prompt (used for Baseline, D1, D3, D1+D3).
-   * **Strong Response**: Generated using the hardened system prompt (used for D2, D1+D2, D2+D3, All Three).
-2. The pipeline then applies the input sanitizer (D1) and LLaMA-Guard output classifier (D3) *post-hoc* to simulate the flow of all 8 configurations.
-3. This achieves **exactly the same logical output** but reduces model inference calls by **4x**, saving massive GPU time and preventing Out-Of-Memory (OOM) failures!
-
----
 
 ## 💻 Environment Setup
 
