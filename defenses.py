@@ -140,11 +140,12 @@ def llama_guard_check(prompt: str, response: str, device=None) -> bool:
             }
         ]
         
-        inputs = tokenizer.apply_chat_template(
+        prompt_text = tokenizer.apply_chat_template(
             chat,
-            return_tensors="pt",
+            tokenize=False,
             add_generation_prompt=True
-        ).to(model.device)
+        )
+        inputs = tokenizer(prompt_text, return_tensors="pt").to(model.device)
         
         with torch.no_grad():
             outputs = model.generate(
