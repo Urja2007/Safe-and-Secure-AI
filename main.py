@@ -384,6 +384,10 @@ def print_and_save_tables(model_key, file_prefix, summary, breakdown):
     print(f"\nReport successfully saved to: {md_output_path}")
 
 def main():
+    # Set fixed random seed for perfectly reproducible research results
+    from transformers import set_seed
+    set_seed(42)
+    
     args = parse_args()
     model_key = args.model
     load_in_4bit = not args.load_in_16bit
