@@ -1,7 +1,7 @@
 import os
 
 # Hugging Face Token (Read from environment variable or use the default from your notebook)
-HF_TOKEN = os.environ.get("HF_TOKEN", "")
+HF_TOKEN = os.environ.get("HF_TOKEN", None)
 
 # Dataset file paths
 JAILBREAK_DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "jailbreak_prompts_25.csv")
@@ -24,7 +24,7 @@ LLAMA_GUARD_MODEL = "meta-llama/Llama-Guard-3-8B"
 
 # LLM-as-a-Judge configuration
 # Options: 'local' (load local instruct model), 'openai' (use OpenAI API), 'gemini' (use Gemini API), 'heuristic' (simple keyword check), 'manual' (interactive review)
-JUDGE_TYPE = "openai"
+JUDGE_TYPE = "local"
 
 # Local judge model ID (only used if JUDGE_TYPE is 'local')
 LOCAL_JUDGE_MODEL = "meta-llama/Llama-3.1-8B-Instruct"

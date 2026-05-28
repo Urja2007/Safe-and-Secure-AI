@@ -122,7 +122,7 @@ def llama_guard_check(prompt: str, response: str, device=None) -> bool:
     """
     Defense D3: LLaMA-Guard Output Classifier.
     Checks a (prompt, response) pair.
-    Returns True if safe, False if unsafe.
+    Returns (is_safe: bool, category: str).
     """
     try:
         model, tokenizer = load_guard_model(device=device)
@@ -148,28 +148,32 @@ def llama_guard_check(prompt: str, response: str, device=None) -> bool:
         
         with torch.no_grad():
             outputs = model.generate(
-                inputs, 
+                **inputs, 
                 max_new_tokens=20, 
                 pad_token_id=tokenizer.eos_token_id
             )
             
         # Extract response text
-        generated_tokens = outputs[0][inputs.shape[1]:]
+        generated_tokens = outputs[0][inputs["input_ids"].shape[1]:]
         decoded = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
         
         # Llama Guard returns either 'safe' or 'unsafe\n<category_code>'
-        first_line = decoded.split("\n")[0].lower().strip()
+        lines = decoded.strip().split("\n")
+        first_line = lines[0].lower().strip()
+        category = lines[1].strip() if len(lines) > 1 else "None"
 
         if first_line.startswith("safe"):
-            return True
+            return True, "None"
         elif first_line.startswith("unsafe"):
-            return False
+            return False, category
         else:
-            return True
+            return True, "None"
     
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         print(f"Error in LLaMA-Guard check: {e}. Defaulting to safe.")
-        return True
+        return True, "None"
 
 def unload_guard_model():
     """Unloads the guard model from memory to free up GPU/RAM."""

@@ -55,7 +55,7 @@ def load_target_model(model_id: str, load_in_4bit: bool = True):
     print(f"Successfully loaded model on device: {model.device}")
     return tokenizer, model
 
-def generate_response(model, tokenizer, system_prompt: str, user_prompt: str, max_new_tokens: int = 256) -> str:
+def generate_response(model, tokenizer, system_prompt: str, user_prompt: str, max_new_tokens: int = 64) -> str:
     """
     Generates a response from the model given a system prompt and a user prompt.
     Automatically applies the model's chat template or falls back to system/user blocks.
@@ -103,7 +103,6 @@ def unload_model(model, tokenizer):
     """
     Unloads the model and tokenizer from RAM/VRAM to prevent OOM errors in subsequent runs.
     """
-    global _guard_model, _guard_tokenizer
     try:
         del model
         del tokenizer

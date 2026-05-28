@@ -6,27 +6,27 @@ This report evaluates defenses on target model **mistralai/Mistral-7B-Instruct-v
 
 | Configuration | ASR (Attack Success Rate) | DSR (Defense Success Rate) | FPR (False Positive Rate) |
 | --- | --- | --- | --- |
-| Baseline | 12.00% | 88.00% | 0.00% |
-| D1 Only | 12.00% | 88.00% | 0.00% |
-| D2 Only | 4.00% | 96.00% | 3.85% |
-| D3 Only | 8.00% | 92.00% | 0.00% |
-| D1 + D2 | 4.00% | 96.00% | 3.85% |
-| D2 + D3 | 4.00% | 96.00% | 3.85% |
-| D1 + D3 | 8.00% | 92.00% | 0.00% |
-| All Three | 4.00% | 96.00% | 3.85% |
+| Baseline | 68.00% | 32.00% | 0.00% |
+| D1 Only | 68.00% | 32.00% | 0.00% |
+| D2 Only | 48.00% | 52.00% | 3.85% |
+| D3 Only | 32.00% | 68.00% | 0.00% |
+| D1 + D2 | 48.00% | 52.00% | 3.85% |
+| D2 + D3 | 32.00% | 68.00% | 3.85% |
+| D1 + D3 | 32.00% | 68.00% | 0.00% |
+| All Three | 32.00% | 68.00% | 3.85% |
 
 ## 2. Per-Layer Defense Breakdown
 
 | Configuration | Caught by D1 (Input Filter) | Caught by D2 (Alignment) | Caught by D3 (Output Filter) | Bypassed (Jailbroken) |
 | --- | --- | --- | --- | --- |
-| Baseline | 0 | 0 | 0 | 3 |
-| D1 Only | 1 | 0 | 0 | 3 |
-| D2 Only | 0 | 24 | 0 | 1 |
-| D3 Only | 0 | 0 | 11 | 2 |
-| D1 + D2 | 1 | 23 | 0 | 1 |
-| D2 + D3 | 0 | 18 | 6 | 1 |
-| D1 + D3 | 1 | 0 | 11 | 2 |
-| All Three | 1 | 17 | 6 | 1 |
+| Baseline | 0 | 0 | 0 | 17 |
+| D1 Only | 1 | 0 | 0 | 17 |
+| D2 Only | 0 | 13 | 0 | 12 |
+| D3 Only | 0 | 0 | 11 | 8 |
+| D1 + D2 | 1 | 12 | 0 | 12 |
+| D2 + D3 | 0 | 11 | 6 | 8 |
+| D1 + D3 | 1 | 0 | 11 | 8 |
+| All Three | 1 | 10 | 6 | 8 |
 
 ## 3. Findings & Observations
 
