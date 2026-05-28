@@ -44,6 +44,12 @@ def parse_args():
         default=None,
         help="Custom prefix for output files. Defaults to the model key."
     )
+    parser.add_argument(
+        "--output_dir", 
+        type=str, 
+        default=None,
+        help="Custom directory to save output files. Defaults to config.RESULTS_DIR."
+    )
     return parser.parse_args()
 
 def load_datasets():
@@ -389,6 +395,11 @@ def main():
     set_seed(42)
     
     args = parse_args()
+    
+    if args.output_dir:
+        config.RESULTS_DIR = args.output_dir
+        os.makedirs(config.RESULTS_DIR, exist_ok=True)
+        
     model_key = args.model
     load_in_4bit = not args.load_in_16bit
     judge_type = args.judge
